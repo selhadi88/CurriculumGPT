@@ -1,0 +1,173 @@
+{
+  "_note": "Hand-curated list of real, well-known certifications for demo/seed purposes. Costs are approximate list prices in USD as of authoring and will drift over time — verify with the provider before relying on them.",
+  "certifications": {
+    "cloud_devops": [
+      {
+        "name": "AWS Certified Solutions Architect – Associate",
+        "provider": "Amazon Web Services",
+        "cost_usd": 150,
+        "keywords": ["aws", "amazon web services", "cloud", "ec2", "infrastructure as code"]
+      },
+      {
+        "name": "Microsoft Certified: Azure Fundamentals (AZ-900)",
+        "provider": "Microsoft",
+        "cost_usd": 99,
+        "keywords": ["azure", "microsoft azure", "cloud"]
+      },
+      {
+        "name": "Google Associate Cloud Engineer",
+        "provider": "Google Cloud",
+        "cost_usd": 125,
+        "keywords": ["gcp", "google cloud", "cloud"]
+      },
+      {
+        "name": "Certified Kubernetes Administrator (CKA)",
+        "provider": "Cloud Native Computing Foundation",
+        "cost_usd": 395,
+        "keywords": ["kubernetes", "k8s", "container orchestration", "docker"]
+      },
+      {
+        "name": "Docker Certified Associate",
+        "provider": "Docker / Mirantis",
+        "cost_usd": 195,
+        "keywords": ["docker", "containerization", "containers"]
+      },
+      {
+        "name": "HashiCorp Certified: Terraform Associate",
+        "provider": "HashiCorp",
+        "cost_usd": 70,
+        "keywords": ["terraform", "infrastructure as code", "ci/cd"]
+      }
+    ],
+    "data_science": [
+      {
+        "name": "IBM Data Science Professional Certificate",
+        "provider": "Coursera / IBM",
+        "cost_usd": 49,
+        "keywords": ["data analysis", "python", "machine learning", "data visualization"]
+      },
+      {
+        "name": "Google Data Analytics Professional Certificate",
+        "provider": "Coursera / Google",
+        "cost_usd": 49,
+        "keywords": ["data analysis", "spreadsheet", "excel", "sql"]
+      },
+      {
+        "name": "TensorFlow Developer Certificate",
+        "provider": "Google",
+        "cost_usd": 100,
+        "keywords": ["deep learning", "tensorflow", "neural network", "machine learning"]
+      },
+      {
+        "name": "Microsoft Certified: Power BI Data Analyst Associate",
+        "provider": "Microsoft",
+        "cost_usd": 165,
+        "keywords": ["data visualization", "power bi", "reporting"]
+      },
+      {
+        "name": "SAS Certified Statistical Business Analyst",
+        "provider": "SAS Institute",
+        "cost_usd": 250,
+        "keywords": ["statistics", "regression", "data analysis"]
+      }
+    ],
+    "web_development": [
+      {
+        "name": "Meta Front-End Developer Professional Certificate",
+        "provider": "Coursera / Meta",
+        "cost_usd": 49,
+        "keywords": ["react", "javascript", "html", "css"]
+      },
+      {
+        "name": "freeCodeCamp Responsive Web Design",
+        "provider": "freeCodeCamp",
+        "cost_usd": 0,
+        "keywords": ["html", "css", "responsive design"]
+      },
+      {
+        "name": "Meta Back-End Developer Professional Certificate",
+        "provider": "Coursera / Meta",
+        "cost_usd": 49,
+        "keywords": ["node.js", "rest api", "python", "sql"]
+      }
+    ],
+    "cybersecurity": [
+      {
+        "name": "CompTIA Security+",
+        "provider": "CompTIA",
+        "cost_usd": 392,
+        "keywords": ["network security", "cryptography", "security compliance"]
+      },
+      {
+        "name": "Certified Ethical Hacker (CEH)",
+        "provider": "EC-Council",
+        "cost_usd": 1199,
+        "keywords": ["penetration testing", "ethical hacking", "vulnerability assessment"]
+      },
+      {
+        "name": "Certified Information Systems Security Professional (CISSP)",
+        "provider": "ISC2",
+        "cost_usd": 749,
+        "keywords": ["security compliance", "incident response", "identity and access management"]
+      },
+      {
+        "name": "CompTIA Network+",
+        "provider": "CompTIA",
+        "cost_usd": 358,
+        "keywords": ["networking", "tcp/ip", "network security"]
+      }
+    ],
+    "business": [
+      {
+        "name": "Project Management Professional (PMP)",
+        "provider": "Project Management Institute",
+        "cost_usd": 555,
+        "keywords": ["project management", "leadership", "stakeholder management"]
+      },
+      {
+        "name": "Certified ScrumMaster (CSM)",
+        "provider": "Scrum Alliance",
+        "cost_usd": 500,
+        "keywords": ["agile", "scrum", "project management"]
+      },
+      {
+        "name": "HubSpot Content Marketing Certification",
+        "provider": "HubSpot Academy",
+        "cost_usd": 0,
+        "keywords": ["marketing strategy", "digital marketing", "seo"]
+      },
+      {
+        "name": "Chartered Financial Analyst (CFA) Level I",
+        "provider": "CFA Institute",
+        "cost_usd": 1000,
+        "keywords": ["financial analysis", "financial modeling", "forecasting"]
+      },
+      {
+        "name": "SHRM Certified Professional (SHRM-CP)",
+        "provider": "Society for Human Resource Management",
+        "cost_usd": 475,
+        "keywords": ["human resources", "recruiting", "employee relations"]
+      }
+    ],
+    "design": [
+      {
+        "name": "Google UX Design Professional Certificate",
+        "provider": "Coursera / Google",
+        "cost_usd": 49,
+        "keywords": ["ui design", "ux design", "user research", "wireframing"]
+      },
+      {
+        "name": "Certified User Experience Professional (CUXP)",
+        "provider": "Interaction Design Foundation",
+        "cost_usd": 199,
+        "keywords": ["ui design", "ux design", "usability testing"]
+      },
+      {
+        "name": "Adobe Certified Professional: Visual Design",
+        "provider": "Adobe",
+        "cost_usd": 150,
+        "keywords": ["graphic design", "adobe photoshop", "adobe illustrator"]
+      }
+    ]
+  }
+}

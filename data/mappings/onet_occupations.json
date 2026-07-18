@@ -1,0 +1,138 @@
+{
+  "_note": "Illustrative seed data for local/demo use — hand-authored, NOT pulled from the live O*NET Web Services API. growth_rate_pct and median_salary_usd are rough, dated approximations for demo purposes only and must not be cited as authoritative labor-market statistics. Replace by running `python scripts/scrape.py --source onet` with a real ONET_API_KEY for production-grade figures. domain values must match the Job.domain categories used by the backend (Information Technology, Engineering, Finance, Marketing, Operations, Human Resources).",
+  "occupations": {
+    "software_developer": {
+      "title": "Software Developer",
+      "domain": "Information Technology",
+      "growth_rate_pct": 17.0,
+      "median_salary_usd": 130000,
+      "skills": ["Python", "Java", "Algorithms & Data Structures", "Software Engineering", "Version Control (Git)"]
+    },
+    "data_scientist": {
+      "title": "Data Scientist",
+      "domain": "Information Technology",
+      "growth_rate_pct": 20.0,
+      "median_salary_usd": 125000,
+      "skills": ["Machine Learning", "Statistics", "Data Analysis", "Python", "Data Visualization"]
+    },
+    "devops_engineer": {
+      "title": "DevOps Engineer",
+      "domain": "Information Technology",
+      "growth_rate_pct": 21.0,
+      "median_salary_usd": 122000,
+      "skills": ["Amazon Web Services (AWS)", "Docker & Containers", "Kubernetes", "CI/CD Pipelines", "Infrastructure as Code"]
+    },
+    "frontend_developer": {
+      "title": "Front-End Developer",
+      "domain": "Information Technology",
+      "growth_rate_pct": 16.0,
+      "median_salary_usd": 105000,
+      "skills": ["JavaScript", "React", "HTML & CSS", "REST APIs"]
+    },
+    "cybersecurity_analyst": {
+      "title": "Information Security Analyst",
+      "domain": "Information Technology",
+      "growth_rate_pct": 32.0,
+      "median_salary_usd": 112000,
+      "skills": ["Network Security", "Penetration Testing", "Incident Response", "Security Compliance & Governance"]
+    },
+    "cloud_architect": {
+      "title": "Cloud Solutions Architect",
+      "domain": "Information Technology",
+      "growth_rate_pct": 15.0,
+      "median_salary_usd": 145000,
+      "skills": ["Amazon Web Services (AWS)", "Microsoft Azure", "Networking Fundamentals", "Infrastructure as Code"]
+    },
+    "ml_engineer": {
+      "title": "Machine Learning Engineer",
+      "domain": "Information Technology",
+      "growth_rate_pct": 23.0,
+      "median_salary_usd": 140000,
+      "skills": ["Deep Learning", "Machine Learning", "Python", "Natural Language Processing"]
+    },
+    "systems_administrator": {
+      "title": "Systems Administrator",
+      "domain": "Information Technology",
+      "growth_rate_pct": 5.0,
+      "median_salary_usd": 90000,
+      "skills": ["Linux Fundamentals", "Networking Fundamentals", "SQL & Relational Databases"]
+    },
+    "mechanical_engineer": {
+      "title": "Mechanical Engineer",
+      "domain": "Engineering",
+      "growth_rate_pct": 10.0,
+      "median_salary_usd": 96000,
+      "skills": ["Algorithms & Data Structures", "Project Management", "Communication & Presentation"]
+    },
+    "civil_engineer": {
+      "title": "Civil Engineer",
+      "domain": "Engineering",
+      "growth_rate_pct": 8.0,
+      "median_salary_usd": 92000,
+      "skills": ["Project Management", "Business Analysis", "Communication & Presentation"]
+    },
+    "financial_analyst": {
+      "title": "Financial Analyst",
+      "domain": "Finance",
+      "growth_rate_pct": 9.0,
+      "median_salary_usd": 96000,
+      "skills": ["Financial Analysis", "Spreadsheet & Reporting Tools", "Statistics", "Communication & Presentation"]
+    },
+    "financial_data_analyst": {
+      "title": "Financial Data Analyst",
+      "domain": "Finance",
+      "growth_rate_pct": 12.0,
+      "median_salary_usd": 102000,
+      "skills": ["Financial Analysis", "Data Analysis", "SQL & Relational Databases", "Data Visualization"]
+    },
+    "digital_marketing_manager": {
+      "title": "Digital Marketing Manager",
+      "domain": "Marketing",
+      "growth_rate_pct": 10.0,
+      "median_salary_usd": 98000,
+      "skills": ["Marketing Strategy", "Communication & Presentation", "Data Analysis"]
+    },
+    "marketing_analyst": {
+      "title": "Marketing Analyst",
+      "domain": "Marketing",
+      "growth_rate_pct": 13.0,
+      "median_salary_usd": 78000,
+      "skills": ["Marketing Strategy", "Data Analysis", "Data Visualization"]
+    },
+    "product_designer": {
+      "title": "Product / UX Designer",
+      "domain": "Marketing",
+      "growth_rate_pct": 16.0,
+      "median_salary_usd": 108000,
+      "skills": ["UI/UX Design", "Prototyping Tools", "User Research", "Design Systems"]
+    },
+    "operations_manager": {
+      "title": "Operations Manager",
+      "domain": "Operations",
+      "growth_rate_pct": 6.0,
+      "median_salary_usd": 100000,
+      "skills": ["Project Management", "Leadership & Team Management", "Business Analysis", "Spreadsheet & Reporting Tools"]
+    },
+    "supply_chain_analyst": {
+      "title": "Supply Chain Analyst",
+      "domain": "Operations",
+      "growth_rate_pct": 11.0,
+      "median_salary_usd": 82000,
+      "skills": ["Data Analysis", "Spreadsheet & Reporting Tools", "Project Management"]
+    },
+    "hr_manager": {
+      "title": "Human Resources Manager",
+      "domain": "Human Resources",
+      "growth_rate_pct": 6.0,
+      "median_salary_usd": 89000,
+      "skills": ["Human Resources Management", "Leadership & Team Management", "Communication & Presentation"]
+    },
+    "recruiter": {
+      "title": "Technical Recruiter",
+      "domain": "Human Resources",
+      "growth_rate_pct": 7.0,
+      "median_salary_usd": 68000,
+      "skills": ["Human Resources Management", "Communication & Presentation"]
+    }
+  }
+}

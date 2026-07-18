@@ -1,0 +1,308 @@
+{
+  "_note": "Hand-authored seed taxonomy for local/demo use. Not scraped or sourced from a live O*NET pull. Skill indices are derived at load time from insertion order (see ml/components/skill_utils.py) — do not reorder domains/skills once a checkpoint has been trained against this file.",
+  "domains": {
+    "computer_science": {
+      "skills": {
+        "python": {
+          "label": "Python",
+          "keywords": ["python", "django", "flask", "pytest"],
+          "weight": 1.0
+        },
+        "java": {
+          "label": "Java",
+          "keywords": ["java", "spring boot", "jvm"],
+          "weight": 1.0
+        },
+        "cpp": {
+          "label": "C++",
+          "keywords": ["c++", "cpp", "memory management"],
+          "weight": 1.0
+        },
+        "algorithms_data_structures": {
+          "label": "Algorithms & Data Structures",
+          "keywords": ["algorithms", "data structures", "big o", "complexity analysis"],
+          "weight": 1.0
+        },
+        "object_oriented_design": {
+          "label": "Object-Oriented Design",
+          "keywords": ["object-oriented", "oop", "design patterns", "uml"],
+          "weight": 0.9
+        },
+        "software_engineering": {
+          "label": "Software Engineering",
+          "keywords": ["software engineering", "sdlc", "code review", "unit testing"],
+          "weight": 1.0
+        },
+        "version_control": {
+          "label": "Version Control (Git)",
+          "keywords": ["git", "github", "version control", "pull request"],
+          "weight": 0.8
+        },
+        "sql": {
+          "label": "SQL & Relational Databases",
+          "keywords": ["sql", "postgresql", "mysql", "relational database"],
+          "weight": 1.0
+        },
+        "linux_fundamentals": {
+          "label": "Linux Fundamentals",
+          "keywords": ["linux", "bash", "shell scripting", "command line"],
+          "weight": 0.8
+        },
+        "robotics_control": {
+          "label": "Robotics & Control Systems",
+          "keywords": ["robotics", "robot", "control systems", "autonomous systems", "mechatronics", "robot vision"],
+          "weight": 0.8
+        },
+        "iot_embedded": {
+          "label": "Internet of Things & Embedded Systems",
+          "keywords": ["internet of things", "iot", "embedded systems", "sensor networks", "wireless sensor"],
+          "weight": 0.7
+        },
+        "computer_graphics_multimedia": {
+          "label": "Computer Graphics & Multimedia",
+          "keywords": ["computer graphics", "multimedia", "rendering", "animation", "3d modeling"],
+          "weight": 0.6
+        }
+      }
+    },
+    "data_science": {
+      "skills": {
+        "machine_learning": {
+          "label": "Machine Learning",
+          "keywords": ["machine learning", "scikit-learn", "supervised learning", "model training", "artificial intelligence", "computational intelligence", "data science"],
+          "weight": 1.0
+        },
+        "deep_learning": {
+          "label": "Deep Learning",
+          "keywords": ["deep learning", "neural network", "neural networks", "pytorch", "tensorflow", "artificial neural network"],
+          "weight": 1.0
+        },
+        "statistics": {
+          "label": "Statistics",
+          "keywords": ["statistics", "hypothesis testing", "regression", "probability"],
+          "weight": 1.0
+        },
+        "data_analysis": {
+          "label": "Data Analysis",
+          "keywords": ["data analysis", "pandas", "exploratory data analysis", "data cleaning", "data mining", "data science"],
+          "weight": 1.0
+        },
+        "data_visualization": {
+          "label": "Data Visualization",
+          "keywords": ["data visualization", "tableau", "power bi", "matplotlib"],
+          "weight": 0.9
+        },
+        "natural_language_processing": {
+          "label": "Natural Language Processing",
+          "keywords": ["nlp", "natural language processing", "text classification", "transformers"],
+          "weight": 0.9
+        },
+        "computer_vision": {
+          "label": "Computer Vision",
+          "keywords": ["computer vision", "image classification", "opencv", "cnn", "image processing", "visual recognition", "robot vision"],
+          "weight": 0.9
+        },
+        "big_data": {
+          "label": "Big Data Tools",
+          "keywords": ["spark", "hadoop", "big data", "distributed computing", "distributed systems", "distributed programming"],
+          "weight": 0.8
+        },
+        "bioinformatics": {
+          "label": "Bioinformatics & Computational Biology",
+          "keywords": ["bioinformatics", "computational biology", "genomics", "genome", "sequence analysis"],
+          "weight": 0.6
+        }
+      }
+    },
+    "cloud_devops": {
+      "skills": {
+        "aws": {
+          "label": "Amazon Web Services (AWS)",
+          "keywords": ["aws", "amazon web services", "ec2", "s3"],
+          "weight": 1.0
+        },
+        "azure": {
+          "label": "Microsoft Azure",
+          "keywords": ["azure", "microsoft azure"],
+          "weight": 0.9
+        },
+        "gcp": {
+          "label": "Google Cloud Platform",
+          "keywords": ["gcp", "google cloud"],
+          "weight": 0.8
+        },
+        "docker_containers": {
+          "label": "Docker & Containers",
+          "keywords": ["docker", "containerization", "dockerfile"],
+          "weight": 1.0
+        },
+        "kubernetes": {
+          "label": "Kubernetes",
+          "keywords": ["kubernetes", "k8s", "helm", "container orchestration"],
+          "weight": 1.0
+        },
+        "ci_cd": {
+          "label": "CI/CD Pipelines",
+          "keywords": ["ci/cd", "continuous integration", "continuous deployment", "jenkins", "github actions"],
+          "weight": 0.9
+        },
+        "infrastructure_as_code": {
+          "label": "Infrastructure as Code",
+          "keywords": ["terraform", "infrastructure as code", "cloudformation", "ansible"],
+          "weight": 0.8
+        },
+        "networking": {
+          "label": "Networking Fundamentals",
+          "keywords": ["networking", "tcp/ip", "dns", "load balancing", "cloud computing", "mobile computing", "wireless networks"],
+          "weight": 0.7
+        }
+      }
+    },
+    "web_development": {
+      "skills": {
+        "html_css": {
+          "label": "HTML & CSS",
+          "keywords": ["html", "css", "responsive design", "flexbox"],
+          "weight": 1.0
+        },
+        "javascript": {
+          "label": "JavaScript",
+          "keywords": ["javascript", "es6", "typescript", "dom"],
+          "weight": 1.0
+        },
+        "react": {
+          "label": "React",
+          "keywords": ["react", "jsx", "react hooks", "redux"],
+          "weight": 1.0
+        },
+        "nodejs": {
+          "label": "Node.js",
+          "keywords": ["node.js", "nodejs", "express", "npm"],
+          "weight": 0.9
+        },
+        "rest_apis": {
+          "label": "REST APIs",
+          "keywords": ["rest api", "restful", "api design", "graphql"],
+          "weight": 0.9
+        },
+        "frontend_frameworks": {
+          "label": "Frontend Frameworks",
+          "keywords": ["vue", "angular", "frontend framework", "component-based"],
+          "weight": 0.7
+        },
+        "web_performance": {
+          "label": "Web Performance & Accessibility",
+          "keywords": ["web performance", "accessibility", "wcag", "lighthouse"],
+          "weight": 0.6
+        }
+      }
+    },
+    "cybersecurity": {
+      "skills": {
+        "network_security": {
+          "label": "Network Security",
+          "keywords": ["network security", "firewall", "vpn", "intrusion detection"],
+          "weight": 1.0
+        },
+        "penetration_testing": {
+          "label": "Penetration Testing",
+          "keywords": ["penetration testing", "pen testing", "ethical hacking", "vulnerability assessment"],
+          "weight": 1.0
+        },
+        "cryptography": {
+          "label": "Cryptography",
+          "keywords": ["cryptography", "encryption", "public key infrastructure", "hashing"],
+          "weight": 0.9
+        },
+        "security_compliance": {
+          "label": "Security Compliance & Governance",
+          "keywords": ["compliance", "gdpr", "iso 27001", "risk assessment"],
+          "weight": 0.8
+        },
+        "incident_response": {
+          "label": "Incident Response",
+          "keywords": ["incident response", "forensics", "threat detection", "soc"],
+          "weight": 0.9
+        },
+        "identity_access_management": {
+          "label": "Identity & Access Management",
+          "keywords": ["identity and access management", "iam", "single sign-on", "mfa"],
+          "weight": 0.7
+        }
+      }
+    },
+    "business": {
+      "skills": {
+        "project_management": {
+          "label": "Project Management",
+          "keywords": ["project management", "agile", "scrum", "kanban"],
+          "weight": 1.0
+        },
+        "business_analysis": {
+          "label": "Business Analysis",
+          "keywords": ["business analysis", "requirements gathering", "stakeholder management", "entrepreneurship", "innovation"],
+          "weight": 0.9
+        },
+        "financial_analysis": {
+          "label": "Financial Analysis",
+          "keywords": ["financial analysis", "financial modeling", "budgeting", "forecasting"],
+          "weight": 1.0
+        },
+        "marketing_strategy": {
+          "label": "Marketing Strategy",
+          "keywords": ["marketing strategy", "digital marketing", "seo", "campaign management"],
+          "weight": 0.9
+        },
+        "communication": {
+          "label": "Communication & Presentation",
+          "keywords": ["communication skills", "presentation", "public speaking", "stakeholder communication", "critical thinking", "problem solving"],
+          "weight": 0.7
+        },
+        "leadership": {
+          "label": "Leadership & Team Management",
+          "keywords": ["leadership", "team management", "people management", "mentoring"],
+          "weight": 0.8
+        },
+        "spreadsheet_analysis": {
+          "label": "Spreadsheet & Reporting Tools",
+          "keywords": ["excel", "spreadsheet", "pivot table", "reporting"],
+          "weight": 0.7
+        },
+        "human_resources": {
+          "label": "Human Resources Management",
+          "keywords": ["human resources", "recruiting", "onboarding", "employee relations"],
+          "weight": 0.8
+        }
+      }
+    },
+    "design": {
+      "skills": {
+        "ui_ux_design": {
+          "label": "UI/UX Design",
+          "keywords": ["ui design", "ux design", "user experience", "wireframing", "human-computer interaction", "human computer interaction", "hci"],
+          "weight": 1.0
+        },
+        "graphic_design": {
+          "label": "Graphic Design",
+          "keywords": ["graphic design", "adobe photoshop", "adobe illustrator", "typography"],
+          "weight": 0.8
+        },
+        "prototyping_tools": {
+          "label": "Prototyping Tools",
+          "keywords": ["figma", "sketch", "prototyping", "adobe xd"],
+          "weight": 0.9
+        },
+        "user_research": {
+          "label": "User Research",
+          "keywords": ["user research", "usability testing", "user interviews", "personas"],
+          "weight": 0.8
+        },
+        "design_systems": {
+          "label": "Design Systems",
+          "keywords": ["design system", "component library", "style guide"],
+          "weight": 0.6
+        }
+      }
+    }
+  }
+}

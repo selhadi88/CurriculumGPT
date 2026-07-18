@@ -1,0 +1,21 @@
+# CUDA-enabled image for GPU training inside Docker.
+# Use ONLY for the `trainer` service in docker-compose.gpu.yml.
+# The serving backend uses the lighter CPU image (backend/Dockerfile).
+FROM pytorch/pytorch:2.6.0-cuda12.4-cudnn9-runtime
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq-dev gcc g++ git && rm -rf /var/lib/apt/lists/*
+
+# torch/torchvision already in the base image; install the rest.
+COPY backend/requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt google-genai matplotlib
+
+COPY backend/ ./backend/
+COPY ml/ ./ml/
+COPY scripts/ ./scripts/
+COPY data/mappings/ ./data/mappings/
+
+ENV PYTHONPATH=/app
+CMD ["python", "scripts/run_full_pipeline.py", "--epochs", "30"]

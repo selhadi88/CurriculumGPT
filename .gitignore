@@ -1,0 +1,95 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+.venv/
+venv/
+env/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# ── Environment ───────────────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Model weights & cache ─────────────────────────────────────────────────────
+.model_cache/
+*.pt
+*.bin
+*.safetensors
+checkpoints/
+
+# ── Data (datasets, mappings, processed files) ───────────────────────────────
+# Raw scraped data and large generated artifacts stay out of version control;
+# the small hand-authored seed data under data/mappings/ and data/processed/
+# ships with the repo so `docker compose up --build` works out of the box.
+data/raw/
+data/labeled/
+data/mappings/monthly_skill_freq.json
+
+# ── Node / Frontend ───────────────────────────────────────────────────────────
+node_modules/
+frontend/dist/
+frontend/.vite/
+*.tsbuildinfo
+
+# ── Database ──────────────────────────────────────────────────────────────────
+*.sqlite
+*.db
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+.claude/settings.local.json
+*.swp
+*.swo
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# ── Old codebase / virtual envs (superseded by refactor) ─────────────────────
+cgpt/
+curriculum-gpt/
+
+# ── Research / docs ───────────────────────────────────────────────────────────
+research/
+*.md
+!README.md
+CLAUDE.md
+
+# ── UI test outputs ───────────────────────────────────────────────────────────
+UI-outputs/
+
+# ── Generated ML artifacts & research outputs ─────────────────────────────────
+data/labeled/
+ml/components/lda_artifacts/
+ml/components/skill_embeddings.pt
+ml/evaluation/results/
+checkpoints/
+outputs/runs/
+data/mappings/monthly_skill_freq.json
+.tmp_pdf/
+
+# ── Misc ──────────────────────────────────────────────────────────────────────
+.stubs/
+.vfscache/
+.vfsmeta/
+.work-folder-info

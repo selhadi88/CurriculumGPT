@@ -1,0 +1,11 @@
+{
+  "_note": "Standard action verbs from Bloom's Revised Taxonomy (Anderson & Krathwohl, 2001), a widely used public-domain educational framework. Used by ml/components/bloom_depth.py to build cognitive-depth histograms.",
+  "verbs": {
+    "remember": ["define", "list", "recall", "name", "identify", "state", "label", "memorize", "recognize", "repeat", "describe", "match"],
+    "understand": ["explain", "summarize", "interpret", "classify", "discuss", "compare", "paraphrase", "illustrate", "translate", "review", "outline", "restate"],
+    "apply": ["apply", "implement", "use", "execute", "demonstrate", "solve", "build", "compute", "operate", "practice", "calculate", "deploy"],
+    "analyze": ["analyze", "differentiate", "examine", "investigate", "break down", "diagnose", "compare", "contrast", "categorize", "decompose", "debug", "inspect"],
+    "evaluate": ["evaluate", "assess", "critique", "justify", "validate", "judge", "recommend", "argue", "defend", "appraise", "test", "review"],
+    "create": ["design", "develop", "construct", "create", "formulate", "compose", "devise", "architect", "generate", "produce", "synthesize", "prototype"]
+  }
+}
