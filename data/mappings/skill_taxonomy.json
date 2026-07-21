@@ -60,7 +60,7 @@
         },
         "computer_graphics_multimedia": {
           "label": "Computer Graphics & Multimedia",
-          "keywords": ["computer graphics", "multimedia", "rendering", "animation", "3d modeling"],
+          "keywords": ["computer graphics", "digital multimedia", "3d rendering", "computer animation", "3d modeling"],
           "weight": 0.6
         }
       }
@@ -84,12 +84,12 @@
         },
         "data_analysis": {
           "label": "Data Analysis",
-          "keywords": ["data analysis", "pandas", "exploratory data analysis", "data cleaning", "data mining", "data science"],
+          "keywords": ["data analysis", "python pandas", "pandas dataframe", "exploratory data analysis", "data cleaning", "data mining", "data science"],
           "weight": 1.0
         },
         "data_visualization": {
           "label": "Data Visualization",
-          "keywords": ["data visualization", "tableau", "power bi", "matplotlib"],
+          "keywords": ["data visualization", "tableau software", "tableau dashboard", "power bi", "matplotlib"],
           "weight": 0.9
         },
         "natural_language_processing": {
@@ -104,7 +104,7 @@
         },
         "big_data": {
           "label": "Big Data Tools",
-          "keywords": ["spark", "hadoop", "big data", "distributed computing", "distributed systems", "distributed programming"],
+          "keywords": ["apache spark", "hadoop", "big data", "distributed computing", "distributed systems", "distributed programming"],
           "weight": 0.8
         },
         "bioinformatics": {
@@ -123,7 +123,7 @@
         },
         "azure": {
           "label": "Microsoft Azure",
-          "keywords": ["azure", "microsoft azure"],
+          "keywords": ["microsoft azure", "azure cloud", "azure devops"],
           "weight": 0.9
         },
         "gcp": {
@@ -138,7 +138,7 @@
         },
         "kubernetes": {
           "label": "Kubernetes",
-          "keywords": ["kubernetes", "k8s", "helm", "container orchestration"],
+          "keywords": ["kubernetes", "k8s", "helm chart", "container orchestration"],
           "weight": 1.0
         },
         "ci_cd": {
@@ -172,27 +172,27 @@
         },
         "react": {
           "label": "React",
-          "keywords": ["react", "jsx", "react hooks", "redux"],
+          "keywords": ["react.js", "reactjs", "jsx", "react hooks", "redux.js", "redux state management"],
           "weight": 1.0
         },
         "nodejs": {
           "label": "Node.js",
-          "keywords": ["node.js", "nodejs", "express", "npm"],
+          "keywords": ["node.js", "nodejs", "express.js", "expressjs", "npm"],
           "weight": 0.9
         },
         "rest_apis": {
           "label": "REST APIs",
-          "keywords": ["rest api", "restful", "api design", "graphql"],
+          "keywords": ["rest api", "restful api", "api design", "graphql"],
           "weight": 0.9
         },
         "frontend_frameworks": {
           "label": "Frontend Frameworks",
-          "keywords": ["vue", "angular", "frontend framework", "component-based"],
+          "keywords": ["vue.js", "vuejs", "angular.js", "angularjs", "frontend framework", "component-based"],
           "weight": 0.7
         },
         "web_performance": {
           "label": "Web Performance & Accessibility",
-          "keywords": ["web performance", "accessibility", "wcag", "lighthouse"],
+          "keywords": ["web performance", "web accessibility", "wcag", "google lighthouse", "lighthouse audit"],
           "weight": 0.6
         }
       }
@@ -221,12 +221,12 @@
         },
         "incident_response": {
           "label": "Incident Response",
-          "keywords": ["incident response", "forensics", "threat detection", "soc"],
+          "keywords": ["incident response", "forensics", "threat detection", "security operations center"],
           "weight": 0.9
         },
         "identity_access_management": {
           "label": "Identity & Access Management",
-          "keywords": ["identity and access management", "iam", "single sign-on", "mfa"],
+          "keywords": ["identity and access management", "iam", "single sign-on", "multi-factor authentication", "multi factor authentication"],
           "weight": 0.7
         }
       }
@@ -240,7 +240,7 @@
         },
         "business_analysis": {
           "label": "Business Analysis",
-          "keywords": ["business analysis", "requirements gathering", "stakeholder management", "entrepreneurship", "innovation"],
+          "keywords": ["business analysis", "requirements gathering", "stakeholder management", "entrepreneurship"],
           "weight": 0.9
         },
         "financial_analysis": {
@@ -255,7 +255,7 @@
         },
         "communication": {
           "label": "Communication & Presentation",
-          "keywords": ["communication skills", "presentation", "public speaking", "stakeholder communication", "critical thinking", "problem solving"],
+          "keywords": ["stakeholder communication", "public speaking", "business presentation", "executive presentation"],
           "weight": 0.7
         },
         "leadership": {
@@ -265,7 +265,7 @@
         },
         "spreadsheet_analysis": {
           "label": "Spreadsheet & Reporting Tools",
-          "keywords": ["excel", "spreadsheet", "pivot table", "reporting"],
+          "keywords": ["microsoft excel", "spreadsheet", "pivot table"],
           "weight": 0.7
         },
         "human_resources": {
@@ -289,12 +289,12 @@
         },
         "prototyping_tools": {
           "label": "Prototyping Tools",
-          "keywords": ["figma", "sketch", "prototyping", "adobe xd"],
+          "keywords": ["figma", "sketch app", "sketch design tool", "prototyping", "adobe xd"],
           "weight": 0.9
         },
         "user_research": {
           "label": "User Research",
-          "keywords": ["user research", "usability testing", "user interviews", "personas"],
+          "keywords": ["user research", "usability testing", "user interviews", "user personas"],
           "weight": 0.8
         },
         "design_systems": {

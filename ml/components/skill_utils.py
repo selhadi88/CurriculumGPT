@@ -15,7 +15,9 @@ from __future__ import annotations
 import functools
 import json
 import logging
+import re
 from pathlib import Path
+from typing import Optional
 
 import numpy as np
 
@@ -66,6 +68,20 @@ def skill_keys() -> list[str]:
     return [key for key, _, _, _ in _skill_records()]
 
 
+@functools.lru_cache(maxsize=4096)
+def _keyword_pattern(keyword: str) -> re.Pattern:
+    """
+    Word-boundary regex for one keyword. Plain substring matching (the
+    original approach) let short/common keywords match inside unrelated
+    words — confirmed live on the real MIT OCW corpus: "dom" (a JavaScript
+    keyword) matched inside "random"/"freedom", "git" would match inside
+    "digit", "api" inside "capital". \b boundaries stop all of that while
+    still matching multi-word phrases like "machine learning" exactly as
+    before (word boundaries at both ends of the whole phrase).
+    """
+    return re.compile(r"\b" + re.escape(keyword) + r"\b")
+
+
 def detect_skill_vector(text: str) -> np.ndarray:
     """
     Soft skill-presence vector in [0, 1], one entry per taxonomy skill.
@@ -79,7 +95,7 @@ def detect_skill_vector(text: str) -> np.ndarray:
     for i, (_, _, keywords, _) in enumerate(records):
         if not keywords:
             continue
-        matches = sum(1 for kw in keywords if kw in text_lower)
+        matches = sum(1 for kw in keywords if _keyword_pattern(kw).search(text_lower))
         vec[i] = min(1.0, matches / 3.0)
     return vec
 
@@ -88,3 +104,31 @@ def present_skill_indices(text: str, threshold: float = 1e-6) -> list[int]:
     """Indices of skills whose soft score exceeds `threshold` (the set Φ in §3.8)."""
     vec = detect_skill_vector(text)
     return [int(i) for i in np.nonzero(vec > threshold)[0]]
+
+
+def domain_scores(text: str) -> dict[str, float]:
+    """
+    Sum of per-skill soft presence scores (see detect_skill_vector), grouped
+    by taxonomy domain. The single shared signal behind classify_domain() —
+    used identically for courses and jobs so both sides of a pair are
+    classified the same way, rather than courses using topic/department
+    metadata and jobs using their collection-query tag.
+    """
+    vec = detect_skill_vector(text)
+    scores: dict[str, float] = {}
+    for i, (_, _, _, domain) in enumerate(_skill_records()):
+        scores[domain] = scores.get(domain, 0.0) + float(vec[i])
+    return scores
+
+
+def classify_domain(text: str) -> Optional[str]:
+    """
+    Unified domain classifier: the taxonomy domain with the highest summed
+    skill score in `text`, or None if no taxonomy skill matched at all.
+    Ties broken by taxonomy insertion order (first domain to reach the max).
+    """
+    scores = domain_scores(text)
+    if not scores:
+        return None
+    best_domain, best_score = max(scores.items(), key=lambda kv: kv[1])
+    return best_domain if best_score > 0 else None

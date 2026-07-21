@@ -45,10 +45,12 @@ services:
       - ./checkpoints:/app/checkpoints:ro
       - ./outputs:/app/outputs
       - ./data:/app/data
+      - ./results:/app/results
       # Mount source code so edits apply on `docker compose restart backend`
       # (no image rebuild needed). This sidesteps Docker build-cache staleness.
       - ./backend:/app/backend
       - ./ml:/app/ml
+      - ./scripts:/app/scripts
     depends_on:
       db:
         condition: service_healthy

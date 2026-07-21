@@ -13,6 +13,8 @@ SkillMultiLabelLoss: BCE loss for the skill classification heads.
 """
 from __future__ import annotations
 
+from typing import Optional
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -22,6 +24,12 @@ class InfoNCELoss(nn.Module):
     """
     In-batch contrastive loss (symmetric).
     Both curriculum→job and job→curriculum directions are averaged.
+
+    Optional per-sample `weights` (e.g. a graded alignment strength like
+    aligned=1.0/partial=0.5) scale how strongly each anchor pair is pulled
+    together — a weight of 0 contributes nothing (equivalent to excluding
+    the row), 0.5 pulls half as strongly as a weight of 1.0. Omitting
+    `weights` reproduces the original unweighted behavior exactly.
     """
 
     def __init__(self, temperature: float = 0.07) -> None:
@@ -32,6 +40,7 @@ class InfoNCELoss(nn.Module):
         self,
         curriculum_embeddings: torch.Tensor,  # (B, D), L2-normalized
         job_embeddings: torch.Tensor,          # (B, D), L2-normalized
+        weights: Optional[torch.Tensor] = None,  # (B,), in [0, 1]
     ) -> torch.Tensor:
         batch_size = curriculum_embeddings.size(0)
 
@@ -41,8 +50,15 @@ class InfoNCELoss(nn.Module):
         # Diagonal = positive pairs
         labels = torch.arange(batch_size, device=logits.device)
 
-        loss_c2j = F.cross_entropy(logits, labels)
-        loss_j2c = F.cross_entropy(logits.T, labels)
+        if weights is None:
+            loss_c2j = F.cross_entropy(logits, labels)
+            loss_j2c = F.cross_entropy(logits.T, labels)
+        else:
+            per_c2j = F.cross_entropy(logits, labels, reduction="none")
+            per_j2c = F.cross_entropy(logits.T, labels, reduction="none")
+            w_sum = weights.sum().clamp_min(1e-8)
+            loss_c2j = (per_c2j * weights).sum() / w_sum
+            loss_j2c = (per_j2c * weights).sum() / w_sum
 
         return (loss_c2j + loss_j2c) / 2.0
 

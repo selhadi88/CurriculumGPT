@@ -30,6 +30,9 @@ logger = logging.getLogger("scrape")
 
 RAW_DIR = Path(__file__).parent.parent / "data" / "raw"
 
+# Per-source counts for the final report, keyed by save filename.
+_REPORT: dict[str, int] = {}
+
 
 def save_jsonl(records: list, out_path: Path) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -37,11 +40,17 @@ def save_jsonl(records: list, out_path: Path) -> None:
         for rec in records:
             f.write(json.dumps(rec.__dict__ if hasattr(rec, "__dict__") else rec) + "\n")
     logger.info("Saved %d records → %s", len(records), out_path)
+    _REPORT[str(out_path.relative_to(RAW_DIR.parent.parent))] = len(records)
 
 
 async def run_coursera(limit: int) -> None:
-    async with CourseraScraper() as scraper:
-        records = await scraper.scrape(limit=limit)
+    try:
+        async with CourseraScraper() as scraper:
+            records = await scraper.scrape(limit=limit)
+    except NotImplementedError as exc:
+        logger.warning("Skipping coursera: %s", exc)
+        _REPORT["data/raw/courses/coursera.jsonl (skipped)"] = 0
+        return
     save_jsonl(
         [{"title": r.title, "description": r.description, "source": r.source, **r.metadata}
          for r in records],
@@ -50,8 +59,13 @@ async def run_coursera(limit: int) -> None:
 
 
 async def run_mit_ocw(limit: int) -> None:
-    async with MITOpenCourseWareScraper() as scraper:
-        records = await scraper.scrape(limit=limit)
+    try:
+        async with MITOpenCourseWareScraper() as scraper:
+            records = await scraper.scrape(limit=limit)
+    except NotImplementedError as exc:
+        logger.warning("Skipping mit_ocw: %s", exc)
+        _REPORT["data/raw/courses/mit_ocw.jsonl (skipped)"] = 0
+        return
     save_jsonl(
         [{"title": r.title, "description": r.description, "source": r.source, **r.metadata}
          for r in records],
@@ -74,12 +88,14 @@ async def run_jobs(limit: int) -> None:
 
     # RemoteOK (no auth)
     async with RemoteOKScraper() as scraper:
-        records = await scraper.scrape(limit=min(limit // 2, 500))
+        records = await scraper.scrape(limit=min(limit // 2, 2000))
+        logger.info("RemoteOK: %d records", len(records))
         all_records.extend(records)
 
     # USAJobs (requires API key)
     async with USAJobsScraper() as scraper:
-        records = await scraper.scrape(limit=min(limit // 2, 500))
+        records = await scraper.scrape(limit=min(limit // 2, 2000))
+        logger.info("USAJobs: %d records", len(records))
         all_records.extend(records)
 
     save_jsonl(
@@ -87,6 +103,19 @@ async def run_jobs(limit: int) -> None:
          for r in all_records],
         RAW_DIR / "jobs" / "jobs.jsonl",
     )
+
+
+def print_report() -> None:
+    print("\n" + "=" * 60)
+    print(f"{'Source file':<45}{'Records':>15}")
+    print("-" * 60)
+    total = 0
+    for name, count in _REPORT.items():
+        print(f"{name:<45}{count:>15}")
+        total += count
+    print("-" * 60)
+    print(f"{'TOTAL':<45}{total:>15}")
+    print("=" * 60 + "\n")
 
 
 def main() -> None:
@@ -114,6 +143,7 @@ def main() -> None:
         asyncio.run(run_jobs(args.limit))
 
     logger.info("Scraping complete.")
+    print_report()
 
 
 if __name__ == "__main__":

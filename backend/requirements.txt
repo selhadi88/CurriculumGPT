@@ -25,6 +25,8 @@ scikit-learn>=1.4.0
 scipy>=1.11.0
 joblib>=1.3.0
 pyarrow>=16.0.0
+langdetect>=1.0.9        # data/preprocessing/pipeline.py language filter
+ftfy>=6.2.0              # data/preprocessing/pipeline.py mojibake repair (e.g. RemoteOK double-encoding)
 
 # ── Evaluation / stats ────────────────────────────────────────────────────────
 pingouin>=0.5.4          # ICC(2,1), statistical validation
@@ -35,7 +37,8 @@ matplotlib>=3.8.0        # research report charts (PNG embedded in report.html)
 reportlab>=4.0.0         # PDF export of analysis results
 openpyxl>=3.1.0          # Excel export of analysis results
 
-# ── Optional LLM labeling (Gemini, primary silver labeler) ────────────────────
+# ── Optional LLM labeling (Groq preferred — higher free-tier limits; Gemini fallback) ──
+groq>=0.9.0              # Groq (Llama 3.3 70B) labeling — optional, graceful fallback
 google-genai>=1.0.0      # Gemini Flash labeling — optional, graceful fallback
 
 # ── Scraping ──────────────────────────────────────────────────────────────────

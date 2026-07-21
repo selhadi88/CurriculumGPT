@@ -1,0 +1,96 @@
+{
+  "input": "data/labeled/gold_llm.parquet",
+  "model_type": "bge",
+  "model_checkpoint": "outputs/checkpoints/bge_finetuned/frozen_epoch10_loss1.2245.pt",
+  "ground_truth": "llm_label (graded via LLM: aligned/partial/not_aligned)",
+  "binary_mapping": {
+    "aligned": 1,
+    "partial": 1,
+    "not_aligned": 0
+  },
+  "relevance_mapping": {
+    "aligned": 2,
+    "partial": 1,
+    "not_aligned": 0
+  },
+  "threshold_method": "median of model scores on the evaluated subset (matches ml/evaluation/compare_models.py convention)",
+  "overall": {
+    "accuracy": 0.6333,
+    "precision": 0.5467,
+    "recall": 0.6613,
+    "f1": 0.5985,
+    "auc": 0.6587,
+    "threshold": 0.0683,
+    "ndcg_at_10": 0.4052,
+    "n": 300,
+    "positive_rate": 0.4133
+  },
+  "per_domain": {
+    "business": {
+      "accuracy": 0.6415,
+      "precision": 0.5556,
+      "recall": 0.6818,
+      "f1": 0.6122,
+      "auc": 0.7097,
+      "threshold": 0.0758,
+      "ndcg_at_10": 0.4136,
+      "n": 53,
+      "positive_rate": 0.4151
+    },
+    "cloud_devops": {
+      "accuracy": 0.5294,
+      "precision": 0.4118,
+      "recall": 0.5385,
+      "f1": 0.4667,
+      "auc": 0.5311,
+      "threshold": 0.0549,
+      "ndcg_at_10": 0.6204,
+      "n": 34,
+      "positive_rate": 0.3824
+    },
+    "computer_science": {
+      "accuracy": 0.6296,
+      "precision": 0.5926,
+      "recall": 0.64,
+      "f1": 0.6154,
+      "auc": 0.6014,
+      "threshold": 0.0758,
+      "ndcg_at_10": 0.638,
+      "n": 54,
+      "positive_rate": 0.463
+    },
+    "cybersecurity": {
+      "accuracy": 0.551,
+      "precision": 0.32,
+      "recall": 0.6154,
+      "f1": 0.4211,
+      "auc": 0.6709,
+      "threshold": 0.0617,
+      "ndcg_at_10": 0.5861,
+      "n": 49,
+      "positive_rate": 0.2653
+    },
+    "data_science": {
+      "accuracy": 0.6721,
+      "precision": 0.7419,
+      "recall": 0.6571,
+      "f1": 0.697,
+      "auc": 0.7396,
+      "threshold": 0.0847,
+      "ndcg_at_10": 0.6159,
+      "n": 61,
+      "positive_rate": 0.5738
+    },
+    "design": {
+      "accuracy": 0.5306,
+      "precision": 0.36,
+      "recall": 0.5625,
+      "f1": 0.439,
+      "auc": 0.5265,
+      "threshold": 0.0602,
+      "ndcg_at_10": 0.1952,
+      "n": 49,
+      "positive_rate": 0.3265
+    }
+  }
+}
