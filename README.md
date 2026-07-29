@@ -132,52 +132,5 @@ pipeline — see [Model](#model) for why.
   untrained weights it will not produce useful scores. No checkpoint ships
   with this repo.
 
-**Fine-tuning experiment (2026-07-21) — tried and reverted.**
-`scripts/train_bge_frozen.py`'s frozen-backbone pipeline was extended to
-train the BGE projection heads on a graded, per-pair training weight derived
-from LLM labels (`aligned`→1.0, `partial`→0.5, `not_aligned`→0.0, excluded).
-Trained on 500 LLM-labeled pairs (170 with weight > 0), seed 42, 10 epochs.
-Result: it made every metric **worse** than the zero-shot baseline on the
-same 300-pair LLM-graded gold set —
 
-| Metric | Zero-shot BGE | Fine-tuned | Δ |
-|---|---|---|---|
-| Accuracy | 0.787 | 0.633 | −0.154 |
-| AUC | 0.865 | 0.659 | −0.207 |
-| F1 | 0.766 | 0.599 | −0.168 |
-| NDCG@10 | 0.427 | 0.405 | −0.022 |
-
-Likely cause: too small and imbalanced a training set for InfoNCE-style
-contrastive training (only 13 of 170 trainable pairs were full "aligned"
-anchors). Full writeup and raw results: `results/gold_evaluation.json` vs.
-`results/finetuned_evaluation.json`. **Zero-shot BGE remains the production
-model** pending a substantially larger LLM-labeled training set — LLM-grading
-the full 4,361-pair corpus is currently blocked on free-tier LLM API daily
-token quotas.
-
-## Known limitations
-
-- The skill-gap/heatmap/radar views use a literal keyword-matching detector
-  (`_detect_skills_keyword`) that is separate from the main semantic
-  alignment score — it only catches phrases present in the taxonomy's
-  keyword lists, so unusual phrasing can under-report curriculum coverage
-  even when the semantic score correctly recognizes the match.
-- No automated test suite exists yet (`pyproject.toml` points `pytest` at
-  `backend/tests`, which doesn't exist).
-- Alembic is wired up but has no migration history; tables are created
-  directly from the SQLAlchemy models at startup.
-
-## Citation
-
-If you use CurriculumGPT in your research, please cite:
-
-```bibtex
-@misc{curriculumgpt2026,
-  title   = {CurriculumGPT: A Curriculum-to-Industry Alignment Platform},
-  author  = {TODO: author list},
-  year    = {2026},
-  note    = {Preprint},
-  url     = {https://github.com/selhadi88/CurriculumGPT},
-  doi     = {TODO: Zenodo DOI, once assigned}
-}
 ```
