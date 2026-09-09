@@ -49,6 +49,10 @@ RUN python -c "from huggingface_hub import snapshot_download; snapshot_download(
     && mkdir -p /home/user/.cache/model_cache \
     && chown -R user:user /app /home/user
 
+# The model is fully baked above — skip the per-start HF etag checks entirely.
+ENV HF_HUB_OFFLINE=1 \
+    TRANSFORMERS_OFFLINE=1
+
 USER user
 
 EXPOSE 7860
