@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { TrendingUp, Briefcase, BookOpen, Clock } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { ScoreRing } from '@/components/ui/Progress'

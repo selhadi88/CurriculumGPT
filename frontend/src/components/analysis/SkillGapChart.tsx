@@ -1,5 +1,5 @@
 import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Legend,
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend,
 } from 'recharts'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
 import { Badge, severityBadge } from '@/components/ui/Badge'
@@ -8,12 +8,6 @@ import type { SkillGap } from '@/types'
 interface SkillGapChartProps {
   gaps: SkillGap[]
   maxItems?: number
-}
-
-const SEVERITY_COLOR: Record<string, string> = {
-  high: '#ef4444',
-  medium: '#f59e0b',
-  low: '#10b981',
 }
 
 export function SkillGapChart({ gaps, maxItems = 12 }: SkillGapChartProps) {

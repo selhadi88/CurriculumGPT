@@ -1,0 +1,9 @@
+# Single-package project (the "- ." entry), not a monorepo. This file exists
+# only to carry `onlyBuiltDependencies`: pnpm 9.4+ blocks dependency build
+# scripts by default and fails CI installs with ERR_PNPM_IGNORED_BUILDS, and
+# pnpm 10+ reads the allow-list ONLY from here (no longer from package.json).
+# esbuild (via vite) needs its install script to fetch the platform binary.
+packages:
+  - .
+onlyBuiltDependencies:
+  - esbuild

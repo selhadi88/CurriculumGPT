@@ -1,7 +1,6 @@
 import { Building2, User } from 'lucide-react'
 import { clsx } from 'clsx'
 import { useAppStore } from '@/store/useAppStore'
-import type { AnalysisMode } from '@/types'
 
 export function Header() {
   const { mode, setMode } = useAppStore()

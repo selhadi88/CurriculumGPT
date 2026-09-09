@@ -1,0 +1,19 @@
+# Keep the backend image build context small. The backend only needs
+# backend/, ml/, data/mappings/, and data/processed/.
+.git/
+frontend/
+notebooks/
+checkpoints/
+outputs/
+results/
+data/raw/
+data/labeled/
+data/interim/
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+*.md
+!README.md
+.env
+.venv/
+.model_cache/

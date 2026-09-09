@@ -1,15 +1,13 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-# pnpm via corepack, pinned. .npmrc sets node-linker=hoisted so vite/esbuild
-# binaries resolve like a flat npm install; package.json's
-# pnpm.onlyBuiltDependencies allow-lists esbuild's build script (otherwise
-# pnpm 9.4+ fails the install with ERR_PNPM_IGNORED_BUILDS).
+# pnpm pinned via package.json "packageManager"; corepack activates that exact
+# version. .npmrc sets node-linker=hoisted so vite/esbuild binaries resolve like
+# a flat npm install; pnpm-workspace.yaml allow-lists esbuild's build script so
+# pnpm does not fail with ERR_PNPM_IGNORED_BUILDS.
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
-RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
-
-COPY package.json pnpm-lock.yaml .npmrc ./
-RUN pnpm install --no-frozen-lockfile
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+RUN corepack enable && pnpm install --no-frozen-lockfile
 
 COPY . .
 ARG VITE_API_URL=http://localhost:7000

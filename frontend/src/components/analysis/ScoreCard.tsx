@@ -35,7 +35,6 @@ export function ScoreCard({ result }: ScoreCardProps) {
   ]
 
   const componentScores = result.component_scores
-  const componentWeights = result.component_weights ?? {}
   const hasComponents = componentScores && Object.keys(componentScores).length > 0
 
   return (

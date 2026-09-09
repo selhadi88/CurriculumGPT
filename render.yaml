@@ -1,101 +1,28 @@
-# Render Blueprint for CurriculumGPT — https://render.com/docs/blueprint-spec
+# Render Blueprint — frontend only.
 #
-# Creates three resources:
-#   1. curriculumgpt-db        — PostgreSQL 16 (free plan)
-#   2. curriculumgpt-backend   — FastAPI + PyTorch, built from backend/Dockerfile
-#   3. curriculumgpt-frontend  — static Vite build (free)
+# CurriculumGPT is split across two hosts:
+#   • Backend  → Hugging Face Space (Docker, free 16 GB) — see .hf/ and
+#     .github/workflows/deploy-hf-space.yml
+#   • Frontend → Render static site (this file)
 #
-# ⚠️  MEMORY: the backend loads a PyTorch BGE embedding model. Render's free /
-#     starter web services have 512 MB RAM and will OOM while loading it.
-#     This blueprint defaults the backend to the `standard` plan (2 GB, paid)
-#     with the full BAAI/bge-large-en-v1.5 model. To try a cheaper tier, set
-#     the backend `plan` to `starter` and BGE_MODEL_NAME to
-#     BAAI/bge-small-en-v1.5 (still tight — see DEPLOY_RENDER.md).
-#
-# After the first deploy, fill in the `sync: false` env vars in the Render
-# dashboard (they have no value here on purpose). Details in DEPLOY_RENDER.md.
-
-databases:
-  - name: curriculumgpt-db
-    plan: free
-    databaseName: gurriculum_db
-    user: gurriculum
-    postgresMajorVersion: "16"
+# The static site is built with Vite and talks to the backend at VITE_API_URL
+# below. Deploy: Render dashboard ▸ New ▸ Blueprint ▸ pick
+# selhadi88/CurriculumGPT. Full walkthrough in DEPLOY.md.
 
 services:
-  # ── Backend ────────────────────────────────────────────────────────────────
-  - type: web
-    name: curriculumgpt-backend
-    runtime: docker
-    plan: standard
-    region: oregon
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: .
-    healthCheckPath: /api/v1/health
-    autoDeploy: true
-    disk:
-      name: model-cache
-      mountPath: /model_cache
-      sizeGB: 5
-    envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: curriculumgpt-db
-          property: connectionString
-      - key: MODEL_TYPE
-        value: bge
-      - key: BGE_MODEL_NAME
-        value: BAAI/bge-large-en-v1.5
-      - key: MODEL_CACHE_DIR
-        value: /model_cache
-      - key: DEVICE
-        value: cpu
-      - key: SEED_LIMIT
-        value: "2000"
-      - key: WORKERS
-        value: "1"
-      - key: LOG_LEVEL
-        value: INFO
-      - key: SECRET_KEY
-        generateValue: true
-      # Allow any *.onrender.com origin so the frontend URL need not be hardcoded.
-      - key: CORS_ORIGIN_REGEX
-        value: 'https://.*\.onrender\.com'
-      - key: CORS_ORIGINS_RAW
-        value: http://localhost:5173,http://localhost:3000
-      # ── Optional API keys (data-collection / LLM-labeling scripts only; the
-      #    live web app does not need them). Set in the dashboard if wanted. ──
-      - key: ONET_API_KEY
-        sync: false
-      - key: USAJOBS_API_KEY
-        sync: false
-      - key: USAJOBS_EMAIL
-        sync: false
-      - key: GROQ_API_KEY
-        sync: false
-      - key: GROQ_API_KEY_2
-        sync: false
-      - key: GEMINI_API_KEY
-        sync: false
-
-  # ── Frontend ───────────────────────────────────────────────────────────────
   - type: web
     name: curriculumgpt-frontend
     runtime: static
     buildCommand: >-
       cd frontend &&
-      npm install -g pnpm@9.15.4 &&
+      corepack enable &&
       pnpm install --no-frozen-lockfile &&
-      pnpm exec vite build
+      pnpm run build
     staticPublishPath: ./frontend/dist
     autoDeploy: true
     envVars:
-      # Bare hostname from Render; frontend/src/services/api.ts adds https://.
       - key: VITE_API_URL
-        fromService:
-          name: curriculumgpt-backend
-          type: web
-          property: host
+        value: https://selhadi-curriculumgpt-backend.hf.space
     routes:
       - type: rewrite
         source: /*

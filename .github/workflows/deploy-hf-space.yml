@@ -1,0 +1,68 @@
+name: Deploy backend to Hugging Face Space
+
+# Pushes the backend (plus the ml/ package and the two data/ subdirs it needs)
+# to https://huggingface.co/spaces/selhadi/curriculumgpt-backend, which then
+# builds .hf/Dockerfile and serves the API at
+# https://selhadi-curriculumgpt-backend.hf.space
+#
+# Requires repo secret HF_TOKEN — a Hugging Face access token with WRITE scope
+# (https://huggingface.co/settings/tokens).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/**"
+      - "ml/**"
+      - "data/mappings/**"
+      - "data/processed/**"
+      - ".hf/**"
+      - ".github/workflows/deploy-hf-space.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: hf-space-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble Space repo
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/space && mkdir -p /tmp/space/data
+          cp -r backend ml               /tmp/space/
+          cp -r data/mappings data/processed /tmp/space/data/
+          cp .hf/Dockerfile              /tmp/space/Dockerfile
+          cp .hf/README.md               /tmp/space/README.md
+          # keep the Space lean / reproducible
+          find /tmp/space -name '__pycache__' -type d -prune -exec rm -rf {} +
+          find /tmp/space -name '*.pyc' -delete
+          cat > /tmp/space/.gitignore <<'EOF'
+          __pycache__/
+          *.pyc
+          .model_cache/
+          EOF
+          printf '%s\n' "backend/  -> API code" "ml/       -> models" > /tmp/space/.space-contents
+
+      - name: Push to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${HF_TOKEN:-}" ]; then
+            echo "::error::HF_TOKEN secret is not set. Add it in repo Settings ▸ Secrets and variables ▸ Actions."
+            exit 1
+          fi
+          cd /tmp/space
+          git init -q
+          git checkout -q -b main
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add -A
+          git commit -q -m "Sync from selhadi88/CurriculumGPT@${GITHUB_SHA:0:7}"
+          git push -f "https://selhadi:${HF_TOKEN}@huggingface.co/spaces/selhadi/curriculumgpt-backend" main
+          echo "Pushed. Watch the build at https://huggingface.co/spaces/selhadi/curriculumgpt-backend"
