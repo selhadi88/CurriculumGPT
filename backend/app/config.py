@@ -32,6 +32,9 @@ class Settings(BaseSettings):
     # Stored as plain str; parsed into a list by the property below.
     # Accepts both JSON array and comma-separated values in .env.
     cors_origins_raw: str = "http://localhost:5173,http://localhost:3000"
+    # Optional regex alternative — e.g. r"https://.*\.onrender\.com" lets any
+    # Render subdomain call the API without hardcoding the frontend URL.
+    cors_origin_regex: str = ""
 
     # External APIs
     onet_api_key: str = ""
@@ -42,6 +45,18 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     workers: int = 1
     api_v1_prefix: str = "/api/v1"
+
+    @property
+    def sqlalchemy_url(self) -> str:
+        """Normalize managed-host DSNs (Render/Railway/Heroku hand out
+        ``postgres://`` or ``postgresql://``) to the psycopg2 driver SQLAlchemy
+        2.0 expects. A DSN that already names a driver is left untouched."""
+        url = self.database_url.strip()
+        if url.startswith("postgres://"):
+            url = "postgresql+psycopg2://" + url[len("postgres://") :]
+        elif url.startswith("postgresql://"):
+            url = "postgresql+psycopg2://" + url[len("postgresql://") :]
+        return url
 
     @property
     def cors_origins(self) -> list[str]:

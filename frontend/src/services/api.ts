@@ -7,8 +7,17 @@ import type {
   JobListResponse,
 } from '@/types'
 
+// Render's `fromService` hands us a bare hostname (no scheme). Normalize so a
+// value like "curriculumgpt-backend.onrender.com" becomes a usable base URL.
+const rawApiUrl = (import.meta.env.VITE_API_URL as string | undefined)?.trim()
+const apiBaseUrl = !rawApiUrl
+  ? 'http://localhost:7000'
+  : /^https?:\/\//.test(rawApiUrl)
+    ? rawApiUrl
+    : `https://${rawApiUrl}`
+
 const api = axios.create({
-  baseURL: (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:7000',
+  baseURL: apiBaseUrl,
   headers: { 'Content-Type': 'application/json' },
   timeout: 30_000,
 })

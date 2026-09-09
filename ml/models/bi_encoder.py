@@ -75,6 +75,14 @@ class BGEBiEncoder(nn.Module):
     ) -> None:
         super().__init__()
 
+        # BGE_MODEL_NAME lets memory-constrained hosts downshift to a smaller
+        # backbone (e.g. BAAI/bge-small-en-v1.5, ~130MB vs ~1.3GB). Projection
+        # heads below size themselves from backbone.config.hidden_size, and the
+        # production zero-shot path uses CLS cosine similarity, so any BGE
+        # variant works without further changes.
+        if model_name == _DEFAULT_MODEL:
+            model_name = os.getenv("BGE_MODEL_NAME", _DEFAULT_MODEL)
+
         cache_dir = cache_dir or os.getenv("MODEL_CACHE_DIR", ".model_cache")
         logger.info("Loading backbone: %s (cache=%s)", model_name, cache_dir)
 

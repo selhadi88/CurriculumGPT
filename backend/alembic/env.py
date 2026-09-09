@@ -39,6 +39,11 @@ _db_url = os.environ.get(
     "DATABASE_URL",
     "postgresql+psycopg2://gurriculum:password@127.0.0.1:5432/gurriculum_db",
 )
+# Managed hosts (Render/Railway/Heroku) hand out driver-less DSNs — pin psycopg2.
+if _db_url.startswith("postgres://"):
+    _db_url = "postgresql+psycopg2://" + _db_url[len("postgres://") :]
+elif _db_url.startswith("postgresql://"):
+    _db_url = "postgresql+psycopg2://" + _db_url[len("postgresql://") :]
 config.set_main_option("sqlalchemy.url", _db_url)
 
 

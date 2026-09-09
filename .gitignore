@@ -73,6 +73,7 @@ curriculum-gpt/
 research/
 *.md
 !README.md
+!DEPLOY_RENDER.md
 CLAUDE.md
 
 # ── UI test outputs ───────────────────────────────────────────────────────────

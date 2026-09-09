@@ -21,7 +21,7 @@ def _get_engine():
         from app.config import get_settings
         settings = get_settings()
         _engine = create_engine(
-            settings.database_url,
+            settings.sqlalchemy_url,
             pool_pre_ping=True,
             pool_size=5,
             max_overflow=10,

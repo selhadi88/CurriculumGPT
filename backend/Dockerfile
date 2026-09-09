@@ -23,5 +23,6 @@ ENV PYTHONPATH=/app
 
 WORKDIR /app/backend
 
+# Local compose uses 7000; hosts like Render/Railway inject $PORT.
 EXPOSE 7000
-CMD ["sh", "-c", "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 7000 --workers 1"]
+CMD ["sh", "-c", "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-7000} --workers ${WORKERS:-1}"]
