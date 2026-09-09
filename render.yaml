@@ -32,7 +32,7 @@ services:
     dockerfilePath: ./backend/Dockerfile
     dockerContext: .
     healthCheckPath: /api/v1/health
-    autoDeployTrigger: commit
+    autoDeploy: true
     disk:
       name: model-cache
       mountPath: /model_cache
@@ -88,7 +88,7 @@ services:
       pnpm install --no-frozen-lockfile &&
       pnpm exec vite build
     staticPublishPath: ./frontend/dist
-    autoDeployTrigger: commit
+    autoDeploy: true
     envVars:
       # Bare hostname from Render; frontend/src/services/api.ts adds https://.
       - key: VITE_API_URL
