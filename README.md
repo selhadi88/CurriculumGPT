@@ -76,7 +76,7 @@ and flattens metadata into `data/processed/{courses,jobs}/*.csv`.
 
 The real **course corpus in this repo is MIT OpenCourseWare only**.
 
-### Evaluation scope: 6 domains, not 7
+### Evaluation scope: 6 domains
 
 The taxonomy defines 7 domains, but real evaluation/training data (pairs,
 gold set) covers only **6**: `computer_science`, `data_science`,
