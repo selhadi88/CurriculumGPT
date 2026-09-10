@@ -31,7 +31,7 @@ export function Reports() {
 
   const handleExportJSON = () => {
     if (!currentResult) return
-    downloadJSON(currentResult, `gurriculum_report_${currentResult.analysis_id.slice(0, 8)}.json`)
+    downloadJSON(currentResult, `curriculumgpt_report_${currentResult.analysis_id.slice(0, 8)}.json`)
   }
 
   const handleExportCSV = () => {

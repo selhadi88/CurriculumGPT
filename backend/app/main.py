@@ -20,17 +20,17 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    logger.info("GurriculumGPT API starting up…")
+    logger.info("CurriculumGPT API starting up…")
     init_db()
     yield
-    logger.info("GurriculumGPT API shutting down")
+    logger.info("CurriculumGPT API shutting down")
 
 
 def create_app() -> FastAPI:
     settings = get_settings()
 
     app = FastAPI(
-        title="GurriculumGPT API",
+        title="CurriculumGPT API",
         description="Curriculum-to-industry alignment platform",
         version="0.1.0",
         docs_url="/docs",

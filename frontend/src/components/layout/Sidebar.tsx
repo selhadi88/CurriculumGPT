@@ -37,7 +37,7 @@ export function Sidebar() {
         <GraduationCap className="h-6 w-6 shrink-0 text-brand-500" />
         {!sidebarCollapsed && (
           <span className="ml-3 text-sm font-bold tracking-tight text-slate-100">
-            GurriculumGPT
+            CurriculumGPT
           </span>
         )}
       </div>

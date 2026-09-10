@@ -48,7 +48,7 @@ export const useAppStore = create<AppState>()(
         set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
     }),
     {
-      name: 'gurriculum-store',
+      name: 'curriculumgpt-store',
       partialize: (state) => ({
         mode: state.mode,
         history: state.history,

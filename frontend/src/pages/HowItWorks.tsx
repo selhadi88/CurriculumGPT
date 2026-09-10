@@ -31,7 +31,7 @@ export function HowItWorks() {
   return (
     <div className="space-y-8 animate-fade-in max-w-4xl">
       <div>
-        <h1 className="text-2xl font-bold text-slate-100">How GurriculumGPT Works</h1>
+        <h1 className="text-2xl font-bold text-slate-100">How CurriculumGPT Works</h1>
         <p className="text-sm text-slate-400 mt-1">
           A plain-language guide: what goes in, what comes out, and how the score is built.
         </p>
