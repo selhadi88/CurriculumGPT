@@ -47,17 +47,22 @@ export function Progress({
 }
 
 export function ScoreRing({ value, size = 80 }: { value: number; size?: number }) {
+  const v = Math.max(0, Math.min(100, Math.round(value || 0)))
+  const c = size / 2
   const radius = (size - 12) / 2
   const circumference = 2 * Math.PI * radius
-  const offset = circumference - (value / 100) * circumference
-  const color = value >= 70 ? '#10b981' : value >= 40 ? '#f59e0b' : '#ef4444'
+  const offset = circumference - (v / 100) * circumference
+  const color = v >= 70 ? '#10b981' : v >= 40 ? '#f59e0b' : '#ef4444'
 
+  // Only the progress arc is rotated (SVG attribute, around the centre). The
+  // track and the number stay upright — rotating the whole <svg> sent the
+  // <text> off-screen.
   return (
-    <svg width={size} height={size} className="-rotate-90">
-      <circle cx={size / 2} cy={size / 2} r={radius} stroke="#1e293b" strokeWidth={10} fill="none" />
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+      <circle cx={c} cy={c} r={radius} stroke="#1e293b" strokeWidth={10} fill="none" />
       <circle
-        cx={size / 2}
-        cy={size / 2}
+        cx={c}
+        cy={c}
         r={radius}
         stroke={color}
         strokeWidth={10}
@@ -65,17 +70,17 @@ export function ScoreRing({ value, size = 80 }: { value: number; size?: number }
         strokeDasharray={circumference}
         strokeDashoffset={offset}
         strokeLinecap="round"
-        className="transition-all duration-700"
+        transform={`rotate(-90 ${c} ${c})`}
+        style={{ transition: 'stroke-dashoffset 0.7s ease' }}
       />
       <text
-        x={size / 2}
-        y={size / 2}
+        x={c}
+        y={c}
         textAnchor="middle"
         dominantBaseline="central"
-        className="rotate-90"
-        style={{ transform: `rotate(90deg) translate(0, 0)`, fill: '#f1f5f9', fontSize: size / 4, fontWeight: 700 }}
+        style={{ fill: '#f1f5f9', fontSize: size / 3.2, fontWeight: 700 }}
       >
-        {Math.round(value)}
+        {v}
       </text>
     </svg>
   )
