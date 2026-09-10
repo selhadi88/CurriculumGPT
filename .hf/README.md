@@ -6,7 +6,7 @@ colorTo: blue
 sdk: docker
 app_port: 7860
 pinned: false
-short_description: FastAPI + BGE embedding API for curriculum-to-industry alignment
+short_description: CurriculumGPT BGE backend API
 ---
 
 # CurriculumGPT Backend
