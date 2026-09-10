@@ -13,11 +13,9 @@ services:
   - type: web
     name: curriculumgpt-frontend
     runtime: static
-    buildCommand: >-
-      cd frontend &&
-      npm install -g pnpm@9.15.4 &&
-      pnpm install --no-frozen-lockfile &&
-      pnpm run build
+    # Plain npm — no pnpm/corepack on Render's static build image. npm has no
+    # ignored-build-scripts restriction, so esbuild installs fine.
+    buildCommand: cd frontend && npm install --no-audit --no-fund && npm run build
     staticPublishPath: ./frontend/dist
     autoDeploy: true
     envVars:
