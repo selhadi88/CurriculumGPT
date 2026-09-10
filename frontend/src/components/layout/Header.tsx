@@ -1,6 +1,7 @@
 import { Building2, User } from 'lucide-react'
 import { clsx } from 'clsx'
 import { useAppStore } from '@/store/useAppStore'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 export function Header() {
   const { mode, setMode } = useAppStore()
@@ -25,8 +26,11 @@ export function Header() {
         />
       </div>
 
-      <div className="text-xs text-slate-500">
-        {mode === 'institution' ? 'Curriculum coordinator mode' : 'Student / job seeker mode'}
+      <div className="flex items-center gap-3">
+        <div className="hidden text-xs text-slate-500 sm:block">
+          {mode === 'institution' ? 'Curriculum coordinator mode' : 'Student / job seeker mode'}
+        </div>
+        <ThemeToggle />
       </div>
     </header>
   )

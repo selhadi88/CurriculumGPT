@@ -11,6 +11,10 @@
     color-scheme: dark;
   }
 
+  html:not(.dark) {
+    color-scheme: light;
+  }
+
   html {
     scroll-behavior: smooth;
   }
