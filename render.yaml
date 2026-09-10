@@ -21,6 +21,8 @@ services:
     staticPublishPath: ./frontend/dist
     autoDeploy: true
     envVars:
+      - key: NODE_VERSION
+        value: "20.18.1"
       - key: VITE_API_URL
         value: https://selhadi-curriculumgpt-backend.hf.space
     routes:
