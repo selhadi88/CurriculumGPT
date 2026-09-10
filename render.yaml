@@ -15,7 +15,7 @@ services:
     runtime: static
     buildCommand: >-
       cd frontend &&
-      corepack enable &&
+      npm install -g pnpm@9.15.4 &&
       pnpm install --no-frozen-lockfile &&
       pnpm run build
     staticPublishPath: ./frontend/dist
