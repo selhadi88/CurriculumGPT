@@ -164,34 +164,57 @@ def _load_onet_mapping() -> dict[str, Any]:
     return {}
 
 
+_JOB_STOPWORDS = {
+    "and", "the", "for", "with", "into", "from", "course", "skills", "data",
+    "introduction", "advanced", "fundamentals", "principles", "systems",
+    "design", "theory", "applied", "modern", "using",
+}
+
+
+def _curriculum_keywords(curriculum_texts: list[str]) -> list[str]:
+    import re
+    blob = " ".join(curriculum_texts).lower()
+    seen: list[str] = []
+    for t in re.findall(r"[a-zA-Z][a-zA-Z+#.]{2,}", blob):
+        if t not in _JOB_STOPWORDS and t not in seen:
+            seen.append(t)
+    return seen[:15]
+
+
 def _fetch_relevant_jobs(db: Session, curriculum_texts: list[str], limit: int) -> list[Job]:
     """
-    Retrieve jobs whose title/description mention terms from the curriculum, so
-    the alignment comparison is against RELEVANT jobs (not random unrelated ones).
-    Falls back to the first `limit` jobs if no keyword matches are found.
+    Retrieve jobs relevant to the curriculum, ranked by keyword overlap.
+
+    The seeded DB mixes rich real postings with terse O*NET occupation stubs
+    ("Software Developers. Core skills: …"). A plain `.limit()` on the keyword
+    filter returned whatever sorted first (the stubs). Instead: pull a wide
+    keyword-matched pool, then in Python rank by how many curriculum terms each
+    job mentions (title matches count double), preferring real postings.
+    Cheap — no embeddings here; the model only scores the final `limit` jobs.
     """
-    import re
     from sqlalchemy import or_
 
-    # Extract distinctive terms (3+ chars) from the curriculum input.
-    blob = " ".join(curriculum_texts).lower()
-    terms = [t for t in re.findall(r"[a-zA-Z][a-zA-Z+#.]{2,}", blob)]
-    # Keep the most informative unique terms (skip common filler words).
-    stop = {"and", "the", "for", "with", "into", "from", "course", "skills", "data"}
-    seen: list[str] = []
-    for t in terms:
-        if t not in stop and t not in seen:
-            seen.append(t)
-    keywords = seen[:12]
+    keywords = _curriculum_keywords(curriculum_texts)
+    if not keywords:
+        return db.query(Job).limit(limit).all()
 
-    if keywords:
-        conds = [Job.title.ilike(f"%{kw}%") for kw in keywords]
-        conds += [Job.description.ilike(f"%{kw}%") for kw in keywords]
-        relevant = db.query(Job).filter(or_(*conds)).limit(limit).all()
-        if relevant:
-            return relevant
+    conds = [Job.title.ilike(f"%{kw}%") for kw in keywords]
+    conds += [Job.description.ilike(f"%{kw}%") for kw in keywords]
+    pool = db.query(Job).filter(or_(*conds)).limit(400).all()
+    if not pool:
+        return db.query(Job).limit(limit).all()
 
-    return db.query(Job).limit(limit).all()
+    def score(j: Job) -> tuple:
+        title = (j.title or "").lower()
+        desc = (j.description or "").lower()
+        title_hits = sum(1 for kw in keywords if kw in title)
+        desc_hits = sum(1 for kw in keywords if kw in desc)
+        # Real postings (have a company/url) over O*NET occupation stubs.
+        is_real = 1 if (getattr(j, "company", None) or getattr(j, "url", None)) else 0
+        return (title_hits * 2 + desc_hits, is_real, len(desc))
+
+    pool.sort(key=score, reverse=True)
+    return pool[:limit]
 
 
 def _get_severity(gap: float) -> str:
@@ -239,10 +262,10 @@ def _execute(
     if not curriculum_texts:
         raise ValueError("No valid curriculum items found in input")
 
-    # 2. Fetch jobs from DB — prefer jobs RELEVANT to the curriculum so the
-    # comparison is meaningful (otherwise we'd grab random unrelated jobs like
-    # "security guard" for a tech curriculum and every gap would look tiny).
-    jobs = []
+    # 2. Fetch the jobs to compare against — the ones most relevant to the
+    # curriculum (ranked by keyword overlap in _fetch_relevant_jobs, so a
+    # strong curriculum isn't scored against terse O*NET occupation stubs).
+    jobs: list[Job] = []
     if request.target_domain:
         # UI domain slugs (e.g. "computer_science") don't match the DB's job
         # categories (e.g. "Information Technology"). Map them, and fall back to
@@ -256,21 +279,20 @@ def _execute(
         ).limit(_MAX_JOBS_PER_ANALYSIS).all()
 
     if not jobs:
-        # No domain/title filter (or it matched nothing) → relevance retrieval.
         jobs = _fetch_relevant_jobs(db, curriculum_texts, _MAX_JOBS_PER_ANALYSIS)
-
     if not jobs:
         jobs = db.query(Job).limit(_MAX_JOBS_PER_ANALYSIS).all()
-
     if not jobs:
         raise ValueError("No jobs found in the database. Run `python scripts/scrape.py` first.")
 
-    job_texts = [f"{j.title}. {j.description[:800]}" for j in jobs]
+    # 500 chars ≈ 120 tokens — enough signal for a match, and ~2x faster to
+    # encode than 800 for the long scraped postings (BGE truncates at 512 tokens).
+    job_texts = [f"{j.title}. {j.description[:500]}" for j in jobs]
     job_labels = [j.title for j in jobs]
     # Per-job posting years → powers the Recency component (Srec).
     job_years = [j.posted_date.year if getattr(j, "posted_date", None) else None for j in jobs]
 
-    # 3. Encode unique texts once — full similarity matrix in 2 forward passes
+    # 3. Encode + score
     from ml.models.alignment import AlignmentModel
     model: AlignmentModel = get_alignment_model()  # type: ignore[assignment]
     model._load()
@@ -295,10 +317,12 @@ def _execute(
             curr_embs = model._model.encode_texts(curriculum_texts, encoder="curriculum", batch_size=batch)
             job_embs_tensor = model._model.encode_texts(job_texts, encoder="job", batch_size=batch)
 
-        sim_matrix = torch.matmul(curr_embs, job_embs_tensor.T)
         # Calibrate the raw cosine band onto [0, 1] before it feeds metrics,
         # the heatmap and job ranking (ranking is order-preserving here).
-        all_scores = [[_calibrate_similarity(v) for v in row] for row in sim_matrix.tolist()]
+        all_scores = [
+            [_calibrate_similarity(v) for v in row]
+            for row in torch.matmul(curr_embs, job_embs_tensor.T).tolist()
+        ]
     else:
         # curriculum_gpt and custom backends: score per (curriculum, job) pair.
         # Pass each job's posting year (Recency) so the component is data-backed.
@@ -314,7 +338,6 @@ def _execute(
                     agg_components.setdefault(name, []).append(val)
                 if getattr(r, "weights", None):
                     component_weights = r.weights  # type: ignore[attr-defined]
-        # Mean component score across all scored pairs → dashboard summary.
         component_scores = {
             name: round(sum(vals) / len(vals), 4)
             for name, vals in agg_components.items() if vals
