@@ -54,7 +54,7 @@ export function Analyzer() {
 
         if (pollCountRef.current > MAX_POLL_ATTEMPTS) {
           clearPoll()
-          setError('Analysis timed out. The 7-component model runs on CPU and can be slow — try again, or use fewer courses.')
+          setError('Analysis timed out. Scoring runs on CPU and can be slow — try again, or use fewer courses.')
           setLoading(false)
           return
         }
@@ -121,7 +121,7 @@ export function Analyzer() {
         <div className="lg:col-span-2">
           {loading && (
             <div className="flex flex-col items-center justify-center h-64 border border-dashed border-slate-700 rounded-xl">
-              <FullPageSpinner label="Running the 7-component analysis on CPU — this takes 1–3 minutes. Please wait…" />
+              <FullPageSpinner label="Scoring your curriculum against the job market on CPU — the first run loads the model and can take a minute…" />
             </div>
           )}
 
@@ -151,9 +151,11 @@ export function Analyzer() {
                 </p>
                 <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
                   We compared what you entered against <b>{result.job_labels?.length ?? 20} real job postings</b> from
-                  the database. The big number on the left is the <b>overall alignment</b> (0–100%): how well your
-                  skills/courses match what these jobs require. Below it are the 7 components that make up that score,
-                  then your skill gaps, recommended certifications, and the best-matching jobs.
+                  the database. The big number on the left is the <b>overall alignment</b> (0–100%): how well each of
+                  your courses maps to its best-matching job, averaged.
+                  {result.component_scores && Object.keys(result.component_scores).length > 0
+                    ? ' Below it are the 7 components that make up that score, then your skill gaps, recommended certifications, and the best-matching jobs.'
+                    : ' Below are your skill gaps, recommended certifications, and the best-matching jobs.'}
                 </p>
               </div>
               <ScoreCard result={result} />

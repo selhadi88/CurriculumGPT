@@ -33,6 +33,17 @@ _UI_OUTPUTS_DIR = Path(__file__).parent.parent.parent.parent / "UI-outputs"
 _MAX_JOBS_PER_ANALYSIS = 20
 _MAX_COURSES_PER_ANALYSIS = 100
 
+# Raw BGE-large CLS cosine similarities for English text pairs occupy a narrow
+# band: ~0.35–0.45 for unrelated text, ~0.62–0.80 for a strong topical match.
+# Left raw, every curriculum scored ~40–48% overall and coverage/relevance
+# pinned at 100%. Rescale that band onto [0, 1] so the scores discriminate.
+_SIM_FLOOR = 0.35
+_SIM_CEIL = 0.75
+
+
+def _calibrate_similarity(x: float) -> float:
+    return min(1.0, max(0.0, (x - _SIM_FLOOR) / (_SIM_CEIL - _SIM_FLOOR)))
+
 # UI domain slugs → actual job categories present in the database.
 _UI_DOMAIN_TO_DB = {
     "computer_science": ["Information Technology", "Engineering"],
@@ -285,7 +296,9 @@ def _execute(
             job_embs_tensor = model._model.encode_texts(job_texts, encoder="job", batch_size=batch)
 
         sim_matrix = torch.matmul(curr_embs, job_embs_tensor.T)
-        all_scores = sim_matrix.tolist()
+        # Calibrate the raw cosine band onto [0, 1] before it feeds metrics,
+        # the heatmap and job ranking (ranking is order-preserving here).
+        all_scores = [[_calibrate_similarity(v) for v in row] for row in sim_matrix.tolist()]
     else:
         # curriculum_gpt and custom backends: score per (curriculum, job) pair.
         # Pass each job's posting year (Recency) so the component is data-backed.

@@ -41,10 +41,12 @@ class MetricBundle:
 class AlignmentMetrics:
     def __init__(
         self,
-        # A pair counts as a "match" at >= this cosine similarity. BGE projection
-        # heads produce scores in the ~0.3–0.5 band before heavy fine-tuning, so
-        # 0.35 reflects real matches; 0.5 was too strict and zeroed the metric.
-        coverage_threshold: float = 0.35,
+        # A curriculum item "covers" a job when their calibrated similarity is
+        # >= this. The alignment service calibrates raw BGE cosine similarities
+        # (which sit in a narrow ~0.35–0.75 band for any English text) onto
+        # [0, 1] before calling compute(), so 0.5 here is a genuine "clearly
+        # related" bar rather than "any two English sentences".
+        coverage_threshold: float = 0.5,
         gap_threshold: float = 0.2,
     ) -> None:
         self.coverage_threshold = coverage_threshold
@@ -60,12 +62,19 @@ class AlignmentMetrics:
         n_curr = len(similarity_matrix)
         n_jobs = len(similarity_matrix[0]) if similarity_matrix else 0
 
-        # Overall score = mean of all pairwise similarities
-        overall = (
-            sum(v for row in similarity_matrix for v in row) / (n_curr * n_jobs)
-            if n_curr > 0 and n_jobs > 0
-            else 0.0
-        )
+        # Overall alignment = how well each curriculum item maps to its
+        # single best-matching job, averaged over the curriculum. Averaging
+        # over ALL pairs (the old behaviour) washed out the signal — an
+        # unrelated course still has middling similarity to every job, so
+        # every curriculum landed in the same 40–48 band.
+        if n_curr > 0 and n_jobs > 0:
+            best_per_item = [
+                max(similarity_matrix[i][j] for j in range(n_jobs))
+                for i in range(n_curr)
+            ]
+            overall = sum(best_per_item) / len(best_per_item)
+        else:
+            overall = 0.0
 
         # Industry coverage: fraction of jobs matched by at least one curriculum item
         industry_coverage = 0.0
